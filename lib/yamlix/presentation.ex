@@ -2,7 +2,7 @@ defmodule Presentation do
   alias RepresentationGraph.Node
 
   def present(tree) do
-    "--- " <>
+    "---\n" <>
     produce(tree) <>
     "...\n"
   end
@@ -18,8 +18,8 @@ defmodule Presentation do
   end
   
   defp block_sequence(%Node{value: list, tag: t}, n) do
-    list |> List.foldl "\n", fn val, acc ->
-      acc <> indent(n) <> "- " <> sequence_element(val, n + 1)
+    list |> List.foldl "", fn val, acc ->
+      acc <> indent_block(n) <> "- " <> sequence_element(val, n + 1)
     end
   end
   
@@ -75,5 +75,8 @@ defmodule Presentation do
   defp indent(0), do: ""
   defp indent(level) do
     String.duplicate(" ", level * 2)
+  end
+  defp indent_block(level) do
+    String.duplicate("", level * 2)
   end
 end
