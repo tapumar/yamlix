@@ -20,18 +20,21 @@ defmodule Presentation do
   end
 
   defp block_sequence(%Node{value: list, tag: t}, n) do
-    list
-    |> List.foldl("", fn val, acc ->
-      next = sequence_element(val, n + 1)
-
-      cond do
-        next != "" ->
-          acc <> indent(n) <> "- " <> next
-
-        true ->
-          acc <> indent(n) <> "- " <> "[]"
-      end
-    end)
+    cond do
+      list == [] ->
+        "[]"
+      true ->
+      list
+      |> List.foldl("", fn val, acc ->
+        next = sequence_element(val, n + 1)
+        cond do
+          next != "" ->
+            acc <> indent(n) <> "- " <> next
+          true ->
+            acc <> indent(n) <> "- " <> "[]"
+        end
+      end)
+    end
   end
 
   defp sequence_element(%Node{value: list, tag: t}, n) when is_list(list) do
@@ -41,8 +44,7 @@ defmodule Presentation do
   defp sequence_element(%Node{value: map, tag: t}, n) when is_map(map) do
     case Map.keys(map) do
       [] ->
-        "{}\n"
-
+        "{}"
       [key | keys] ->
         mapping_pair(map, key, n) <>
           (keys
@@ -57,10 +59,15 @@ defmodule Presentation do
   end
 
   defp block_mapping(%Node{value: map, tag: t}, n) do
-    Map.keys(map)
-    |> List.foldl("\n", fn key, acc ->
-      acc <> indent(n) <> mapping_pair(map, key, n)
-    end)
+    cond do
+      map == %{} ->
+        "{}"
+      true ->
+        Map.keys(map)
+        |> List.foldl("\n", fn key, acc -> 
+          acc <> indent(n) <> mapping_pair(map, key, n)
+        end)
+        end
   end
 
   defp mapping_pair(map, key, n) do

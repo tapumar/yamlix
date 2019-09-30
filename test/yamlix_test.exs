@@ -3,7 +3,7 @@ defmodule YamlixTest do
   
   def parse_with_yamerl(str) do
     str
-    |> String.to_char_list
+    |> String.to_charlist
     |> :yamerl_constr.string([{:node_mods, [:yamerl_node_erlang_atom]}])
   end
 
