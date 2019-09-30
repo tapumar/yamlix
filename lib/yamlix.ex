@@ -5,6 +5,6 @@ defmodule Yamlix do
 
   @spec dump(any) :: String.t
   def dump(scalar) do
-    scalar |> R.represent |> S.serialize |> P.present
+    scalar |> R.represent |> S.serialize |> P.present |> P.ajustList("")
   end
 end
