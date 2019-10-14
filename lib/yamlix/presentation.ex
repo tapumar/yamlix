@@ -2,9 +2,9 @@ defmodule Presentation do
   alias RepresentationGraph.Node
 
   def present(tree) do
-    "" <>
+    "---\n" <>
       produce(tree) <>
-      ""
+      "...\n"
   end
 
   defp produce(%Node{value: list, tag: t}) when is_list(list) do
